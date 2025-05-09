@@ -25,4 +25,5 @@ class ListaWiazana
     void modifyPriority(int oldPriority, int newPriority); //zmiana priorytetu
     void printQ(); //wyświetlanie listy/debugowanie 
 };
+
 #endif
