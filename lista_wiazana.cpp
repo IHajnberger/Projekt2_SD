@@ -53,7 +53,7 @@ int ListaWiazana::pop()
 {
    if(isEmpty())
    {
-       cout<<"Kolejka jest pusta"<<endl;
+        cout<<"Kolejka jest pusta"<<endl;
         return -1;
    }
     Node* temp = head;
@@ -71,7 +71,8 @@ int ListaWiazana::peek()
 {
     if (isEmpty()) 
     {
-        throw runtime_error("Queue is empty");
+        cout<<"Kolejka jest pusta"<<endl;
+        return -1;
     }
     return head->value;
 }
@@ -79,7 +80,8 @@ void ListaWiazana::modifyPriority(int oldPriority, int newPriority)
 {
     if (isEmpty()) 
     {
-        throw runtime_error("Queue is empty");
+        cout<<"Kolejka jest pusta"<<endl;
+        return;
     }
     Node* current = head;
     Node* prev = nullptr;
@@ -108,7 +110,13 @@ void ListaWiazana::modifyPriority(int oldPriority, int newPriority)
 void ListaWiazana::printQ()
 {
     Node* current = head;
-    while (current) {
+    if(isEmpty())
+    {
+        cout << "Kolejka jest pusta" << endl;
+        return;
+    }
+    while (current) 
+    {
         cout << "(" << current->priority << ", " << current->value << ") ";
         current = current->next;
     }

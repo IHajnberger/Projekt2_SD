@@ -71,7 +71,8 @@ int TablicaDynamiczna::peek()
 {
     if (isEmpty())
     {
-        throw runtime_error("Kolejka jest pusta");
+        cout<<"Kolejka jest pusta"<<endl;
+        return -1;
     }
     return data[0].value;
 }
