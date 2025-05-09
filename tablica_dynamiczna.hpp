@@ -23,6 +23,7 @@ int peek(); //podejrzenie następnego elementu do usunięcia
 void modifyPriority(int oldPriority, int newPriority); //zmiana priorytetu
 void printQ(); //wyświetlanie tablicy/debugowanie
 };
+
 #endif
 
 
