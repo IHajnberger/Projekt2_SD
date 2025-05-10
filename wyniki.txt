@@ -1,0 +1,138 @@
+Testowanie struktury: ListaWiazana
+Liczba elementów: 100
+Średni czas operacji push: 96 ns
+Średni czas operacji pop: 20 ns
+Średni czas operacji modifyPriority: 32276 ns
+Średni czas operacji peek: 20 ns
+Liczba elementów: 500
+Średni czas operacji push: 352 ns
+Średni czas operacji pop: 26 ns
+Średni czas operacji modifyPriority: 10002 ns
+Średni czas operacji peek: 34 ns
+Liczba elementów: 1000
+Średni czas operacji push: 784 ns
+Średni czas operacji pop: 32 ns
+Średni czas operacji modifyPriority: 4176 ns
+Średni czas operacji peek: 32 ns
+Liczba elementów: 5000
+Średni czas operacji push: 3462 ns
+Średni czas operacji pop: 38 ns
+Średni czas operacji modifyPriority: 12786 ns
+Średni czas operacji peek: 42 ns
+Liczba elementów: 10000
+Średni czas operacji push: 8108 ns
+Średni czas operacji pop: 18 ns
+Średni czas operacji modifyPriority: 15410 ns
+Średni czas operacji peek: 28 ns
+Liczba elementów: 50000
+Średni czas operacji push: 29940 ns
+Średni czas operacji pop: 28 ns
+Średni czas operacji modifyPriority: 58160 ns
+Średni czas operacji peek: 26 ns
+Liczba elementów: 100000
+Średni czas operacji push: 36592 ns
+Średni czas operacji pop: 32 ns
+Średni czas operacji modifyPriority: 55714 ns
+Średni czas operacji peek: 32 ns
+Liczba elementów: 500000
+Średni czas operacji push: 25354 ns
+Średni czas operacji pop: 20 ns
+Średni czas operacji modifyPriority: 55948 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 1000000
+Średni czas operacji push: 28974 ns
+Średni czas operacji pop: 32 ns
+Średni czas operacji modifyPriority: 53710 ns
+Średni czas operacji peek: 28 ns
+Testowanie struktury: TablicaDynamiczna
+Liczba elementów: 100
+Średni czas operacji push: 190 ns
+Średni czas operacji pop: 324 ns
+Średni czas operacji modifyPriority: 35242 ns
+Średni czas operacji peek: 32 ns
+Liczba elementów: 500
+Średni czas operacji push: 546 ns
+Średni czas operacji pop: 1364 ns
+Średni czas operacji modifyPriority: 15536 ns
+Średni czas operacji peek: 40 ns
+Liczba elementów: 1000
+Średni czas operacji push: 798 ns
+Średni czas operacji pop: 2242 ns
+Średni czas operacji modifyPriority: 10352 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 5000
+Średni czas operacji push: 3758 ns
+Średni czas operacji pop: 11392 ns
+Średni czas operacji modifyPriority: 10586 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 10000
+Średni czas operacji push: 6798 ns
+Średni czas operacji pop: 23098 ns
+Średni czas operacji modifyPriority: 20752 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 50000
+Średni czas operacji push: 48616 ns
+Średni czas operacji pop: 113380 ns
+Średni czas operacji modifyPriority: 106184 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 100000
+Średni czas operacji push: 127646 ns
+Średni czas operacji pop: 235670 ns
+Średni czas operacji modifyPriority: 240646 ns
+Średni czas operacji peek: 24 ns
+Liczba elementów: 500000
+Średni czas operacji push: 749010 ns
+Średni czas operacji pop: 1141402 ns
+Średni czas operacji modifyPriority: 1334708 ns
+Średni czas operacji peek: 34 ns
+Liczba elementów: 1000000
+Średni czas operacji push: 1494132 ns
+Średni czas operacji pop: 2323450 ns
+Średni czas operacji modifyPriority: 2749252 ns
+Średni czas operacji peek: 24 ns
+Testowanie struktury: BinaryHeap
+Liczba elementów: 100
+Średni czas operacji push: 92 ns
+Średni czas operacji pop: 144 ns
+Średni czas operacji modifyPriority: 238 ns
+Średni czas operacji peek: 34 ns
+Liczba elementów: 500
+Średni czas operacji push: 58 ns
+Średni czas operacji pop: 202 ns
+Średni czas operacji modifyPriority: 914 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 1000
+Średni czas operacji push: 52 ns
+Średni czas operacji pop: 198 ns
+Średni czas operacji modifyPriority: 1540 ns
+Średni czas operacji peek: 30 ns
+Liczba elementów: 5000
+Średni czas operacji push: 52 ns
+Średni czas operacji pop: 218 ns
+Średni czas operacji modifyPriority: 6534 ns
+Średni czas operacji peek: 36 ns
+Liczba elementów: 10000
+Średni czas operacji push: 52 ns
+Średni czas operacji pop: 234 ns
+Średni czas operacji modifyPriority: 9896 ns
+Średni czas operacji peek: 32 ns
+Liczba elementów: 50000
+Średni czas operacji push: 58 ns
+Średni czas operacji pop: 282 ns
+Średni czas operacji modifyPriority: 37634 ns
+Średni czas operacji peek: 36 ns
+Liczba elementów: 100000
+Średni czas operacji push: 62 ns
+Średni czas operacji pop: 262 ns
+Średni czas operacji modifyPriority: 39714 ns
+Średni czas operacji peek: 32 ns
+Liczba elementów: 500000
+Średni czas operacji push: 82 ns
+Średni czas operacji pop: 282 ns
+Średni czas operacji modifyPriority: 62048 ns
+Średni czas operacji peek: 36 ns
+Liczba elementów: 1000000
+Średni czas operacji push: 76 ns
+Średni czas operacji pop: 286 ns
+Średni czas operacji modifyPriority: 80188 ns
+Średni czas operacji peek: 34 ns
