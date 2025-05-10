@@ -1,6 +1,6 @@
 # Projekt 2 - Struktury danych
 
-Implementacja kolejki priorytetowej na kopcu binarny oraz liście podwiązanej (posortowanej)
+Implementacja kolejki priorytetowej na kopcu binarnym, tablicy dynamicznej oraz liście wiązanej
 
 [Sprawozdanie - Latex (WIP)](https://www.overleaf.com/read/qkbgkqfsdygz#18cccb)
 
