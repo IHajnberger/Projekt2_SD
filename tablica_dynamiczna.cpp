@@ -3,11 +3,9 @@
 
 using namespace std;
 
-TablicaDynamiczna::TablicaDynamiczna()
+TablicaDynamiczna::TablicaDynamiczna():capacity(10), size(0)
 {
     data = new Element[capacity];
-    size = 0;
-    capacity = 10;
 }
 TablicaDynamiczna::~TablicaDynamiczna()
 {
@@ -21,23 +19,24 @@ void TablicaDynamiczna::push(int priority, int value)
 {
     if (size == capacity)
     {
-        capacity *= 2;
-        Element* newData = new Element[capacity];
-        for (int i = 0; i < size; i++)
-        {
-            newData[i] = data[i];
-        }
-        delete[] data;
-        data = newData;
+        // Zwiększenie pojemności i realokacja pamięci
+        int new_capacity = capacity * 2;
+        Element* new_data = new Element[new_capacity];
+        std::copy(data, data + size, new_data); // Kopiowanie elementów
+        delete[] data; // Zwolnienie starej pamięci
+        data = new_data; // Przypisanie nowej pamięci
+        capacity = new_capacity; // Zmiana pojemności
     }
+
+    // Wstawianie elementu w odpowiednie miejsce (zachowanie porządku według priorytetu)
     int i = size - 1;
     while (i >= 0 && data[i].priority > priority)
     {
         data[i + 1] = data[i]; // Przesunięcie elementów w prawo
         i--;
     }
-    data[i+1].priority = priority;
-    data[i+1].value = value;
+    data[i + 1].priority = priority;
+    data[i + 1].value = value;
     size++;
 }
 int TablicaDynamiczna::pop()
