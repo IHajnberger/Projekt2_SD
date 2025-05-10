@@ -1,19 +1,15 @@
 #ifndef lista_wiazana
 #define lista_wiazana
 #include <iostream>
-struct Node
-{
-    int priority; //priorytet
-    int value; //wartość
-    Node* next; //wskaźnik do następnego elementu
-    Node(int prio, int value); //konstruktor
-};
+#include "Node.hpp" // Wymagane dla struktury Node
+
 class ListaWiazana
 {
     private:
     Node* head;//wskaźnik do pierwszego elementu listy
     Node* tail; //wskaźnik do ostatniego elementu listy
     int size = 0; //rozmiar listy
+    NodePool* nodePool; // Wskaźnik do puli węzłów
     public:
     ListaWiazana(); //konstruktor
     ~ListaWiazana(); //destruktor

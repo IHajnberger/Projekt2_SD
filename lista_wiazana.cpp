@@ -1,68 +1,63 @@
 #include "lista_wiazana.hpp"
+#include "Node.hpp"
+#include <iostream>
 
 using namespace std;
 Node::Node(int p, int v) : priority(p), value(v), next(nullptr) {}
-ListaWiazana::ListaWiazana() : head(nullptr), size(0) {}
-ListaWiazana::~ListaWiazana() 
-{
-    Node* current = head; 
-    Node* nextNode;     
-    while (current != nullptr) 
-    {
-        nextNode = current->next; 
-        delete current; 
-        current = nextNode; 
-    }
-    head = nullptr; 
-    tail = nullptr; 
+
+
+ListaWiazana::ListaWiazana() : head(nullptr), tail(nullptr), size(0) {
+    nodePool = new NodePool(10000); // Tworzenie puli pamięci o rozmiarze 10000 węzłów
 }
-bool ListaWiazana::isEmpty()
-{
+
+ListaWiazana::~ListaWiazana() {
+    while (!isEmpty()) {
+        pop();
+    }
+    delete nodePool; // Zwolnienie pamięci puli
+}
+
+bool ListaWiazana::isEmpty() {
     return head == nullptr;
 }
-void ListaWiazana::push(int priority, int value)
-{
-   Node* newNode = new Node(priority, value);
-   size++;
-   if(isEmpty())
-   {
-       head = newNode;
-       tail = newNode;
-       return;
-   }
-   if(head->priority > priority)
-   {
-       newNode->next = head;
-       head = newNode;
-       return;
-   }
+
+void ListaWiazana::push(int priority, int value) {
+    Node* newNode = nodePool->getNode(priority, value);
+    size++;
+    if (isEmpty()) {
+        head = newNode;
+        tail = newNode;
+        return;
+    }
+    if (head->priority > priority) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
     Node* current = head;
-    while(current->next != nullptr && current->next->priority <= priority)
-    {
+    while (current->next != nullptr && current->next->priority <= priority) {
         current = current->next;
     }
     newNode->next = current->next;
     current->next = newNode;
-    if(current->next == nullptr)
-    {
+    if (current->next == nullptr) {
         tail = newNode;
     }
-
 }
-int ListaWiazana::pop()
-{
-   if(isEmpty())
-   {
-        cout<<"Kolejka jest pusta"<<endl;
+
+int ListaWiazana::pop() {
+    if (isEmpty()) {
+        cout << "Lista jest pusta" << endl;
         return -1;
-   }
+    }
     Node* temp = head;
     int val = head->value;
     head = head->next;
-    delete temp;
+    nodePool->returnNode(temp); // Zwracanie węzła do puli
     size--;
     return val;
 }
+
 int ListaWiazana::getSize()
 {
     return size;
