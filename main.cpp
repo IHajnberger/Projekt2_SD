@@ -18,6 +18,7 @@ void fillStructure(Structure& structure, int dataSize) {
         structure.push(rand()%dataSize, rand()%dataSize); // Wypełnienie losowymi danymi
     }
 }
+
 // Dla przypadków posortowane dane 
 template <typename Structure>
 void fillSortedStructure(Structure& structure, int dataSize) {
