@@ -6,6 +6,7 @@
 #include <fstream>
 #include <chrono>
 #include <vector>
+#include <thread>
 
 using namespace std;
 using namespace std::chrono;
@@ -14,10 +15,18 @@ using namespace std::chrono;
 template <typename Structure>
 void fillStructure(Structure& structure, int dataSize) {
     for (int i = 0; i < dataSize; i++) {
-        structure.push(i, i); 
+        structure.push(rand()%dataSize, rand()%dataSize); // Wypełnienie losowymi danymi
     }
 }
-
+// Dla przypadków posortowane dane 
+template <typename Structure>
+void fillSortedStructure(Structure& structure, int dataSize) {
+    for (int i = 0; i < dataSize; i++) {
+        int priority = i;
+        int value = i;
+        structure.push(priority, value);
+    }
+}
 // Funkcja do czyszczenia struktury
 template <typename Structure>
 void clearStructure(Structure& structure) {
@@ -28,8 +37,8 @@ void clearStructure(Structure& structure) {
 
 int main() {
     srand(time(0)); // Inicjalizacja generatora liczb losowych
-    int rep = 50; // Liczba powtórzeń dla każdej operacji
-    vector<int> tablice = {100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000};
+    int rep = 100; // Liczba powtórzeń dla każdej operacji
+    vector<int> tablice = {100, 500, 1000, 5000, 10000, 50000};
 
     // Otwieranie plików do zapisu wyników
     ofstream wyniki("wyniki.txt");
@@ -216,13 +225,50 @@ int main() {
     //============================================================
     // testy dla przypadku optymistycznego, średniego i pesymistycznego
     przypadki << "Testowanie struktury: ListaWiazana" << endl;
+    
     for (int dataSize : tablice) 
     {
-        fillStructure(LW, dataSize); // Przygotowanie struktury
+        fillSortedStructure(LW, dataSize); // Przygotowanie struktury
         // ListaWiazana push
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000)); 
         przypadki<< "Liczba elementów: " << dataSize << endl;
         // Testowanie operacji push na początek listy
+         long long totalModifyTime = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            LW.modifyPriority(0, 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTime += duration_cast<nanoseconds>(end - start).count();
+            LW.modifyPriority(1, 0); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (optymistyczne): " << totalModifyTime / rep << " ns" << endl;
+        // ListaWiazana modifyPriority element w środku listy
+        long long totalModifyTimeMiddle = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            LW.modifyPriority(dataSize/2, 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeMiddle += duration_cast<nanoseconds>(end - start).count();
+            LW.modifyPriority(1 ,dataSize/2);
+        }
+        przypadki << "Średni czas operacji modifyPriority (średnie): " << totalModifyTimeMiddle / rep << " ns" << endl;
+        
+        // ListaWiazana modifyPriority element na końcu listy
+        long long totalModifyTimeEnd = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            LW.modifyPriority(dataSize-1, 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeEnd += duration_cast<nanoseconds>(end - start).count();
+            LW.modifyPriority(1, dataSize-1);
+        }
+        przypadki << "Średni czas operacji modifyPriority (pesymistyczne): " << totalModifyTimeEnd / rep << " ns" << endl;
+
         long long totalPushTime = 0;
+
         for (int i = 0; i < rep; i++) 
         {
             auto start = high_resolution_clock::now();
@@ -248,7 +294,7 @@ int main() {
         for (int i = 0; i < rep; i++) 
         {
             auto start = high_resolution_clock::now();
-            LW.push(dataSize - 1, 1);
+            LW.push(dataSize, 1);
             auto end = high_resolution_clock::now();
             totalPushTimeEnd += duration_cast<nanoseconds>(end - start).count();
             LW.pop(); // Usuwanie elementu po dodaniu
@@ -257,37 +303,6 @@ int main() {
         przypadki<<endl;
 
         // ListaWiazana pop - zawsze O(1) - nie potrzebne testy
-        // ListaWiazana modifyPriority element na początku listy
-        long long totalModifyTime = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            LW.modifyPriority(0, 0);
-            auto end = high_resolution_clock::now();
-            totalModifyTime += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (optymistyczne): " << totalModifyTime / rep << " ns" << endl;
-        // ListaWiazana modifyPriority element w środku listy
-        long long totalModifyTimeMiddle = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            LW.modifyPriority(dataSize / 2, 1);
-            auto end = high_resolution_clock::now();
-            totalModifyTimeMiddle += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (średnie): " << totalModifyTimeMiddle / rep << " ns" << endl;
-        // ListaWiazana modifyPriority element na końcu listy
-        long long totalModifyTimeEnd = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            LW.modifyPriority(dataSize - 1, 1);
-            auto end = high_resolution_clock::now();
-            totalModifyTimeEnd += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (pesymistyczne): " << totalModifyTimeEnd / rep << " ns" << endl;
-        przypadki<<endl;
         clearStructure(LW); // Czyszczenie struktury po testach
         // ListaWiazana peek - zawsze O(1) - nie potrzebne testy
     }
@@ -295,10 +310,47 @@ int main() {
     przypadki << "Testowanie struktury: TablicaDynamiczna" << endl;
     for(int dataSize : tablice) 
     {
-        fillStructure(TD, dataSize-1); // Przygotowanie struktury
+       fillSortedStructure(TD, dataSize); // Przygotowanie struktury
         // TablicaDynamiczna push
         przypadki<< "Liczba elementów: " << dataSize << endl;
         // Testowanie operacji push na początek tablicy
+        
+        // TablicaDynamiczna pop - zawsze O(1) - nie potrzebne testy
+        // TablicaDynamiczna modifyPriority element na początku tablicy
+        //coś nie działa - będzie trzeba dodać wskaźnik lub coś
+        long long totalModifyTime = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            TD.modifyPriority(0, 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTime += duration_cast<nanoseconds>(end - start).count();
+            TD.modifyPriority(1, 0); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (optymistyczne): " << totalModifyTime / rep << " ns" << endl;
+        // TablicaDynamiczna modifyPriority element w środku tablicy
+        long long totalModifyTimeMiddle = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            TD.modifyPriority(dataSize / 2, 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeMiddle += duration_cast<nanoseconds>(end - start).count();
+            TD.modifyPriority(1, dataSize / 2); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (średnie): " << totalModifyTimeMiddle / rep << " ns" << endl;
+        // TablicaDynamiczna modifyPriority element na końcu tablicy
+        long long totalModifyTimeEnd = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            TD.modifyPriority(dataSize-1 , 1);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeEnd += duration_cast<nanoseconds>(end - start).count();
+            TD.modifyPriority(1, dataSize-1); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (pesymistyczne): " << totalModifyTimeEnd / rep << " ns" << endl;
+        przypadki<<endl;
         long long totalPushTime = 0;
         for (int i = 0; i < rep; i++) 
         {
@@ -333,54 +385,54 @@ int main() {
         przypadki << "Średni czas operacji push (pesymistyczne):" << totalPushTimeEnd / rep << " ns" << endl;
         przypadki<<endl;
 
-        // TablicaDynamiczna pop - zawsze O(1) - nie potrzebne testy
-        // TablicaDynamiczna modifyPriority element na początku tablicy
-        //coś nie działa - będzie trzeba dodać wskaźnik lub coś
-        long long totalModifyTime = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            TD.modifyPriority(1, 0);
-            auto end = high_resolution_clock::now();
-            totalModifyTime += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (optymistyczne): " << totalModifyTime / rep << " ns" << endl;
-        // TablicaDynamiczna modifyPriority element w środku tablicy
-        long long totalModifyTimeMiddle = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            TD.modifyPriority(dataSize / 2, 1);
-            auto end = high_resolution_clock::now();
-            totalModifyTimeMiddle += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (średnie): " << totalModifyTimeMiddle / rep << " ns" << endl;
-        // TablicaDynamiczna modifyPriority element na końcu tablicy
-        long long totalModifyTimeEnd = 0;
-        for (int i = 0; i < rep; i++) 
-        {
-            auto start = high_resolution_clock::now();
-            TD.modifyPriority(dataSize , 1);
-            auto end = high_resolution_clock::now();
-            totalModifyTimeEnd += duration_cast<nanoseconds>(end - start).count();
-        }
-        przypadki << "Średni czas operacji modifyPriority (pesymistyczne): " << totalModifyTimeEnd / rep << " ns" << endl;
-        przypadki<<endl;
         clearStructure(TD); // Czyszczenie struktury po testach
     }
     // Testowanie BinaryHeap
     przypadki << "Testowanie struktury: BinaryHeap" << endl;
     for (int dataSize : tablice) 
     {
-        fillStructure(BH, dataSize); // Przygotowanie struktury
-        // BinaryHeap push
         przypadki<< "Liczba elementów: " << dataSize << endl;
-        // Testowanie operacji push na początek tablicy
+        fillSortedStructure(BH, dataSize); // Przygotowanie struktury
+         // BinaryHeap modifyPriority zmiana priorytetu bez potrzeby przesuwania 
+       long long totalModifyTime = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            BH.modifyPriority(dataSize/2, dataSize/2);
+            auto end = high_resolution_clock::now();
+            totalModifyTime += duration_cast<nanoseconds>(end - start).count();
+        }
+        przypadki << "Średni czas operacji modifyPriority (optymistyczne): " << totalModifyTime / rep << " ns" << endl;
+
+        // BinaryHeap modifyPriority element z końca na środkek tablicy
+        long long totalModifyTimeMiddle = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            BH.modifyPriority(dataSize, dataSize/2);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeMiddle += duration_cast<nanoseconds>(end - start).count();
+            BH.modifyPriority(dataSize/2, dataSize); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (średnie): " << totalModifyTimeMiddle / rep << " ns" << endl;
+        // BinaryHeap modifyPriority element z końca na początek
+        long long totalModifyTimeEnd = 0;
+        for (int i = 0; i < rep; i++) 
+        {
+            auto start = high_resolution_clock::now();
+            BH.modifyPriority(dataSize-1, 0);
+            auto end = high_resolution_clock::now();
+            totalModifyTimeEnd += duration_cast<nanoseconds>(end - start).count();
+            BH.modifyPriority(0, dataSize-1); // Przywrócenie stanu początkowego
+        }
+        przypadki << "Średni czas operacji modifyPriority (pesymistyczne): " << totalModifyTimeEnd / rep << " ns" << endl;
+        przypadki<<endl;
+       
         long long totalPushTime = 0;
         for (int i = 0; i < rep; i++) 
         {
             auto start = high_resolution_clock::now();
-            BH.push(dataSize-1, 1);
+            BH.push(dataSize, 1);
             auto end = high_resolution_clock::now();
             totalPushTime += duration_cast<nanoseconds>(end - start).count();
             BH.pop(); // Usuwanie elementu po dodaniu
@@ -409,10 +461,9 @@ int main() {
         }
         przypadki << "Średni czas operacji push (pesymistyczne):" << totalPushTimeEnd / rep << " ns" << endl;
         przypadki<<endl;
+       
         clearStructure(BH); // Czyszczenie struktury po testach
     }
-
-    
 
     // Zamknięcie plików
     przypadki.close();
