@@ -34,7 +34,6 @@ void clearStructure(Structure& structure) {
         structure.pop();
     }
 }
-
 int main() {
     srand(time(0)); // Inicjalizacja generatora liczb losowych
     int rep = 100; // Liczba powtórzeń dla każdej operacji
