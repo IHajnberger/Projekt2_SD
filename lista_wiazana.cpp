@@ -46,7 +46,7 @@ void ListaWiazana::push(int priority, int value)
     }
     newNode->next = current->next;
     current->next = newNode;
-    if (current->next == nullptr) 
+    if (current == tail) 
     {
         tail = newNode;
     }
@@ -62,7 +62,7 @@ int ListaWiazana::pop()
     Node* temp = head;
     int val = head->value;
     head = head->next;
-    nodePool->returnNode(temp); // Zwracanie węzła do puli
+    nodePool->returnNode(temp); 
     size--;
     return val;
 }
@@ -80,17 +80,21 @@ int ListaWiazana::peek()
     }
     return head->value;
 }
-void ListaWiazana::modifyPriority(int oldPriority, int newPriority) {
-    if (isEmpty()) {
+void ListaWiazana::modifyPriority(int oldPriority, int newPriority) 
+{
+    if (isEmpty()) 
+    {
         cout << "Kolejka jest pusta" << endl;
         return;
     }
-        // Optymistyczny przypadek: element o priorytecie oldPriority jest na początku listy
-    if (head->priority == oldPriority) {
+
+    if (head->priority == oldPriority) 
+    {
         head->priority = newPriority;
 
         // Jeśli nowy priorytet wymaga zmiany pozycji węzła
-        if (head->next != nullptr && head->next->priority < newPriority) {
+        if (head->next != nullptr && head->next->priority < newPriority) 
+        {
             Node* current = head;
             head = head->next; // Usuń węzeł z początku
             current->next = nullptr;
@@ -98,72 +102,81 @@ void ListaWiazana::modifyPriority(int oldPriority, int newPriority) {
             // Wstaw węzeł w odpowiednie miejsce
             Node* temp = head;
             Node* prev = nullptr;
-            while (temp != nullptr && temp->priority <= newPriority) {
+            while (temp != nullptr && temp->priority <= newPriority) 
+            {
                 prev = temp;
                 temp = temp->next;
             }
 
-            if (prev == nullptr) {
-                // Wstaw na początek
+            if (prev == nullptr) 
+            {
                 current->next = head;
                 head = current;
-            } else {
+            } 
+            else
+            {
                 // Wstaw w środek lub na koniec
                 current->next = temp;
                 prev->next = current;
-                if (current->next == nullptr) {
-                    tail = current; // Aktualizuj ogon, jeśli wstawiono na koniec
+                if (current->next == nullptr) 
+                {
+                    tail = current; 
                 }
             }
         }
         return;
     }
 
-    // Standardowy przypadek: element nie jest na początku listy
     Node* current = head;
     Node* prev = nullptr;
 
-    // Znajdź węzeł o priorytecie oldPriority
-    while (current != nullptr && current->priority != oldPriority) {
+    while (current != nullptr && current->priority != oldPriority) 
+    {
         prev = current;
         current = current->next;
     }
 
-    if (current == nullptr) {
+    if (current == nullptr) 
+    {
         cout << "Nie znaleziono elementu o podanym priorytecie" << endl;
         return;
     }
 
     // Usuń węzeł z bieżącej pozycji
-    if (prev != nullptr) {
+    if (prev != nullptr) 
+    {
         prev->next = current->next;
     }
 
-    if (current == tail) {
-        tail = prev; // Aktualizuj ogon, jeśli usuwany węzeł był ostatni
+    if (current == tail) 
+    {
+        tail = prev;
     }
 
     // Zmień priorytet węzła
     current->priority = newPriority;
 
     // Wstaw węzeł w odpowiednie miejsce
-    if (head == nullptr || head->priority > newPriority) {
-        // Wstaw na początek
+    if (head == nullptr || head->priority > newPriority) 
+    {
         current->next = head;
         head = current;
-        if (tail == nullptr) {
-            tail = current; // Jeśli lista była pusta, aktualizuj ogon
+        if (tail == nullptr) 
+        {
+            tail = current; 
         }
     } else {
         // Znajdź odpowiednie miejsce w liście
         Node* temp = head;
-        while (temp->next != nullptr && temp->next->priority <= newPriority) {
+        while (temp->next != nullptr && temp->next->priority <= newPriority) 
+        {
             temp = temp->next;
         }
         current->next = temp->next;
         temp->next = current;
-        if (current->next == nullptr) {
-            tail = current; // Aktualizuj ogon, jeśli wstawiono na koniec
+        if (current->next == nullptr) 
+        {
+            tail = current; 
         }
     }
 }

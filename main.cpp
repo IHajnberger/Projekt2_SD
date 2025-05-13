@@ -36,9 +36,12 @@ void clearStructure(Structure& structure) {
     }
 }
 int main() {
+    ListaWiazana LW;
+    TablicaDynamiczna TD;
+    BinaryHeap BH;
     srand(time(0)); // Inicjalizacja generatora liczb losowych
     int rep = 100; // Liczba powtórzeń dla każdej operacji
-    vector<int> tablice = {100, 500, 1000, 5000, 10000, 50000};
+    vector<int> tablice = {100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000}; // Rozmiary danych do testowania
 
     // Otwieranie plików do zapisu wyników
     ofstream wyniki("wyniki.txt");
@@ -48,7 +51,7 @@ int main() {
     }
 
     // Testowanie ListaWiazana
-    ListaWiazana LW;
+    
     wyniki << "Testowanie struktury: ListaWiazana" << endl;
     for (int dataSize : tablice) {
         wyniki << "Liczba elementów: " << dataSize << endl;
@@ -105,7 +108,7 @@ int main() {
     }
 
     // Analogiczne testy dla TablicaDynamiczna
-    TablicaDynamiczna TD;
+    
     wyniki << "Testowanie struktury: TablicaDynamiczna" << endl;
     for (int dataSize : tablice) {
         wyniki << "Liczba elementów: " << dataSize << endl;
@@ -162,7 +165,6 @@ int main() {
     }
 
     // Analogiczne testy dla BinaryHeap
-    BinaryHeap BH;
     wyniki << "Testowanie struktury: BinaryHeap" << endl;
     for (int dataSize : tablice) {
         wyniki << "Liczba elementów: " << dataSize << endl;
@@ -317,7 +319,6 @@ int main() {
         
         // TablicaDynamiczna pop - zawsze O(1) - nie potrzebne testy
         // TablicaDynamiczna modifyPriority element na początku tablicy
-        //coś nie działa - będzie trzeba dodać wskaźnik lub coś
         long long totalModifyTime = 0;
         for (int i = 0; i < rep; i++) 
         {

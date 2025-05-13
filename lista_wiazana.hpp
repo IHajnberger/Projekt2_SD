@@ -1,7 +1,7 @@
 #ifndef lista_wiazana
 #define lista_wiazana
 #include <iostream>
-#include "Node.hpp" // Wymagane dla struktury Node
+#include "Node.hpp"
 
 class ListaWiazana
 {

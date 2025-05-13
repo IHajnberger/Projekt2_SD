@@ -23,16 +23,16 @@ void TablicaDynamiczna::push(int priority, int value)
         int new_capacity = capacity * 2;
         Element* new_data = new Element[new_capacity];
         std::copy(data, data + size, new_data); // Kopiowanie elementów
-        delete[] data; // Zwolnienie starej pamięci
-        data = new_data; // Przypisanie nowej pamięci
-        capacity = new_capacity; // Zmiana pojemności
+        delete[] data; 
+        data = new_data; 
+        capacity = new_capacity; 
     }
 
     // Wstawianie elementu w odpowiednie miejsce (zachowanie porządku według priorytetu)
     int i = size - 1;
     while (i >= 0 && data[i].priority > priority)
     {
-        data[i + 1] = data[i]; // Przesunięcie elementów w prawo
+        data[i + 1] = data[i]; 
         i--;
     }
     data[i + 1].priority = priority;
